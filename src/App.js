@@ -7,6 +7,7 @@ import reducer, {
   CLEAR_COMPLETED
 } from "./reducers";
 import uuid from "uuid";
+import TodoList from "./Components/TodoList";
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -49,20 +50,7 @@ export default function App() {
           CLEAR
         </button>
       </form>
-      {state.todos.map(todo => {
-        const color = todo.completed ? "green" : "red";
-        return (
-          <button
-            onClick={evt => {
-              markCompleted(todo.id);
-            }}
-            key={todo.id}
-            style={{ color }}
-          >
-            {todo.task}
-          </button>
-        );
-      })}
+      <TodoList todos={state.todos} markCompleted={markCompleted} />
     </div>
   );
 }
