@@ -1,10 +1,12 @@
 import React, { useReducer } from "react";
-import reducer, { initialState, INPUT_CHANGE, ADD_TODO, MARK_COMPLETED, CLEAR_COMPLETED } from './reducers'
+import reducer, {
+  initialState,
+  INPUT_CHANGE,
+  ADD_TODO,
+  MARK_COMPLETED,
+  CLEAR_COMPLETED
+} from "./reducers";
 import uuid from "uuid";
-
-
-
-
 
 export default function App() {
   const [state, dispatch] = useReducer(reducer, initialState);
@@ -19,18 +21,17 @@ export default function App() {
       id: uuid(),
       completed: false
     };
-    state.newTodoValue = '';
+    state.newTodoValue = "";
     dispatch({ type: ADD_TODO, payload: newTodo });
   };
   const clearCompleted = e => {
     e.preventDefault();
-    
-    dispatch({ type: CLEAR_COMPLETED})
-  }
+
+    dispatch({ type: CLEAR_COMPLETED });
+  };
   const markCompleted = id => {
-    
-    dispatch({type: MARK_COMPLETED, payload: id})
-  }
+    dispatch({ type: MARK_COMPLETED, payload: id });
+  };
   return (
     <div>
       <form>
@@ -41,14 +42,26 @@ export default function App() {
           onChange={onChange}
           value={state.newTodoValue}
         ></input>
-        <button type='button' onClick={addTodo}>ADD</button>
-        <button type='button' onClick={clearCompleted}>CLEAR</button>
+        <button type="button" onClick={addTodo}>
+          ADD
+        </button>
+        <button type="button" onClick={clearCompleted}>
+          CLEAR
+        </button>
       </form>
       {state.todos.map(todo => {
-        const color = todo.completed ? 'green' : 'red';
-        return(
-        <button onClick={evt => {markCompleted(todo.id)}} key={todo.id} style={{color}}>{todo.task}</button>
-        )
+        const color = todo.completed ? "green" : "red";
+        return (
+          <button
+            onClick={evt => {
+              markCompleted(todo.id);
+            }}
+            key={todo.id}
+            style={{ color }}
+          >
+            {todo.task}
+          </button>
+        );
       })}
     </div>
   );
