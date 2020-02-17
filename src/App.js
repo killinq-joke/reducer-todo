@@ -25,6 +25,21 @@ function reducer(state, action) {
         ...state,
         todos: state.todos.concat(newTodo)
       };
+    case MARK_COMPLETED:
+      const id = action.payload;
+      return {
+        ...state,
+        todos: state.todos.map(todo => {
+          if(todo.id === id) {
+            
+            return {
+              ...todo,
+            completed: !todo.completed
+            } 
+          }
+          return todo;
+        })
+      }  
     case CLEAR_COMPLETED:
       return {
         ...state,
@@ -58,6 +73,10 @@ export default function App() {
     
     dispatch({ type: CLEAR_COMPLETED})
   }
+  const markCompleted = id => {
+    
+    dispatch({type: MARK_COMPLETED, payload: id})
+  }
   return (
     <div>
       <form>
@@ -74,7 +93,7 @@ export default function App() {
       {state.todos.map(todo => {
         const color = todo.completed ? 'green' : 'red';
         return(
-        <h3 key={todo.id} style={{color}}>{todo.task}</h3>
+        <button onClick={evt => {markCompleted(todo.id)}} key={todo.id} style={{color}}>{todo.task}</button>
         )
       })}
     </div>
