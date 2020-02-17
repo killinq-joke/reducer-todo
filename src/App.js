@@ -25,6 +25,11 @@ function reducer(state, action) {
         ...state,
         todos: state.todos.concat(newTodo)
       };
+    case CLEAR_COMPLETED:
+      return {
+        ...state,
+        todos: state.todos.filter(todo => todo.completed === false)
+      }  
     default:
       // if the action.type does not match any of the cases in the switch,
       // we still need to return app state
@@ -38,7 +43,7 @@ export default function App() {
     const inputValue = e.target.value;
     dispatch({ type: INPUT_CHANGE, payload: inputValue });
   };
-  const onClick = e => {
+  const addTodo = e => {
     e.preventDefault();
     const newTodo = {
       task: state.newTodoValue,
@@ -48,6 +53,11 @@ export default function App() {
     state.newTodoValue = '';
     dispatch({ type: ADD_TODO, payload: newTodo });
   };
+  const clearCompleted = e => {
+    e.preventDefault();
+    
+    dispatch({ type: CLEAR_COMPLETED})
+  }
   return (
     <div>
       <form>
@@ -58,8 +68,8 @@ export default function App() {
           onChange={onChange}
           value={state.newTodoValue}
         ></input>
-        <button type='button' onClick={onClick}>ADD</button>
-        <button type='button' onClick={onClick}>ADD</button>
+        <button type='button' onClick={addTodo}>ADD</button>
+        <button type='button' onClick={clearCompleted}>CLEAR</button>
       </form>
       {state.todos.map(todo => {
         const color = todo.completed ? 'green' : 'red';
